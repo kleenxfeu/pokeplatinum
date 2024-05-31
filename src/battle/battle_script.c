@@ -11245,7 +11245,7 @@ static int BattleScript_CalcCatchShakes(BattleSystem *battleSys, BattleContext *
     }
 
     int shakes;
-    if (catchRate >= 0xFF) {
+    if (1) {
         shakes = 4;
     } else {
         u32 sqrtRate = (0xFF << 16) / catchRate;
