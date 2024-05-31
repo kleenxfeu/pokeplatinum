@@ -6732,6 +6732,7 @@ int BattleSystem_CalcMoveDamage(BattleSystem *battleSys,
     if (attackerParams.heldItemEffect == HOLD_EFFECT_LATI_SPECIAL
             && (attackerParams.species == SPECIES_LATIOS || attackerParams.species == SPECIES_LATIAS)) {
         spAttackStat = spAttackStat * 150 / 100;
+        attackStat *= 2;
     }
     if (defenderParams.heldItemEffect == HOLD_EFFECT_LATI_SPECIAL
             && (defenderParams.species == SPECIES_LATIOS || defenderParams.species == SPECIES_LATIAS)) {
