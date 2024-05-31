@@ -197,9 +197,9 @@ ichneumon_sub_defs = subproject('NitroSDK'
 ############################################################
 ###                        DS ROM                        ###
 ############################################################
-pokeplatinum_nds = custom_target('pokeplatinum.us.nds',
+pokeplatinum_nds = custom_target('pokeplatinum.nds',
     output: [
-        'pokeplatinum.us.nds',
+        'pokeplatinum.nds',
         'pokeplatinum.us.nlf'
     ],
     input: [

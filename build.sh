@@ -14,7 +14,7 @@ export NINJA_STATUS="[%p %f/%t] "
 if [ "$target" = test ]; then
     "${MESON:-meson}" test -C build "$@"
 elif [ "$target" = rom ]; then
-    "${MESON:-meson}" compile -C build "pokeplatinum.us.nds"
+    "${MESON:-meson}" compile -C build "pokeplatinum.nds"
 else
     "${MESON:-meson}" compile -C build "$target" "$@"
 fi

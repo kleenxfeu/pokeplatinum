@@ -33,47 +33,52 @@ jobs:
         run: ./config.sh /var/tmp/pokeplatinum
 
       - name: Build Repo
-        run: meson test -C /var/tmp/pokeplatinum
+        run: meson compile -C /var/tmp/pokeplatinum
 
-      - name: Webhook
-        if: ${{ github.event_name == 'push' }}
-        env:
-          arm9name: /var/tmp/pokeplatinum/
-        run: |
-          .github/calcrom/webhook.sh "$CALCROM_WEBHOOK_URL"
-        continue-on-error: true
+      - uses: actions/upload-artifact@v4
+        with:
+          name: pokeplatinum
+          path: /var/tmp/pokeplatinum/pokeplatinum.nds
 
-      - name: Post error archive
-        if: failure()
-        continue-on-error: true
-        run: tar czf failure.tar.gz /var/tmp/pokeplatinum
+      # - name: Webhook
+      #   if: ${{ github.event_name == 'push' }}
+      #   env:
+      #     arm9name: /var/tmp/pokeplatinum/
+      #   run: |
+      #     .github/calcrom/webhook.sh "$CALCROM_WEBHOOK_URL"
+      #   continue-on-error: true
 
-      - name: Post error upload
-        if: failure()
-        uses: actions/upload-artifact@v2
-        with:
-          name: pokeplatinum-failure-${{ github.run_id }}
-          path: failure.tar.gz
-          retention-days: 1
+      # - name: Post error archive
+      #   if: failure()
+      #   continue-on-error: true
+      #   run: tar czf failure.tar.gz /var/tmp/pokeplatinum
+
+      # - name: Post error upload
+      #   if: failure()
+      #   uses: actions/upload-artifact@v2
+      #   with:
+      #     name: pokeplatinum-failure-${{ github.run_id }}
+      #     path: failure.tar.gz
+      #     retention-days: 1
       
-      - name: Checkout xMAP
-        if: ${{ github.event_name == 'push' }}
-        uses: actions/checkout@v4
-        with:
-          path: 'xmap'
-          ref: 'xmap'
+      # - name: Checkout xMAP
+      #   if: ${{ github.event_name == 'push' }}
+      #   uses: actions/checkout@v4
+      #   with:
+      #     path: 'xmap'
+      #     ref: 'xmap'
       
-      - name: Move xMAP
-        if: ${{ github.event_name == 'push' }}
-        run: |
-          mkdir -p xmap
-          cp /var/tmp/pokeplatinum/*.xMAP xmap/platinumus.xMAP
-          echo "XMAP_COMMIT_MSG=$( git log --format=%s ${GITHUB_SHA} )" >> $GITHUB_ENV
+      # - name: Move xMAP
+      #   if: ${{ github.event_name == 'push' }}
+      #   run: |
+      #     mkdir -p xmap
+      #     cp /var/tmp/pokeplatinum/*.xMAP xmap/platinumus.xMAP
+      #     echo "XMAP_COMMIT_MSG=$( git log --format=%s ${GITHUB_SHA} )" >> $GITHUB_ENV
       
-      - name: Update xMAP
-        if: ${{ github.event_name == 'push' }}
-        uses: EndBug/add-and-commit@v9
-        with:
-          cwd: "./xmap"
-          add: "*.xMAP"
-          message: ${{ env.XMAP_COMMIT_MSG }}
+      # - name: Update xMAP
+      #   if: ${{ github.event_name == 'push' }}
+      #   uses: EndBug/add-and-commit@v9
+      #   with:
+      #     cwd: "./xmap"
+      #     add: "*.xMAP"
+      #     message: ${{ env.XMAP_COMMIT_MSG }}
